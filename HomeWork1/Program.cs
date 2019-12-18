@@ -8,5 +8,10 @@ namespace HomeWork1
         {
             Console.WriteLine("Hello World!");
         }
+
+        static bool testRange(int testNumber, int firstNumber, int lastNumber)
+        {
+            return (testNumber >= firstNumber && testNumber <= lastNumber);
+        }
     }
 }
