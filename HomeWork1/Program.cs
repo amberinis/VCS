@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HomeWork1
 {
@@ -6,27 +7,59 @@ namespace HomeWork1
     {
         static void Main()
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(ChangeNumberToText(GetIntNumberInput(-999999999, 999999999)));
         }
 
-        static bool inRange(int testNumber, int firstNumber, int lastNumber)
+        static bool InRange(int testNumber, int firstNumber, int lastNumber)
         {
             return (testNumber >= firstNumber && testNumber <= lastNumber);
         }
 
-        static bool isNumber(string testNumber)
+        static bool IsNumber(string testNumber)
         {
-            for (int i = 0; i < testNumber.Length; i++)
+            int numberLength = testNumber.Length;
+            if (string.IsNullOrEmpty(testNumber))
             {
-                char testSymbol = testNumber[i];
+                return false;
+            }
+
+            int i = 0;
+            char testSymbol = testNumber[i];
+
+            if ((testSymbol != '-' && !char.IsDigit(testSymbol)) || (testSymbol == '-' && numberLength == 1))
+            {
+                return false;
+            }
+
+            for (i = 1; i < numberLength; i++)
+            {
+                testSymbol = testNumber[i];
                 if (!char.IsDigit(testSymbol))
                 {
                     return false;
-                    break;
                 }
-
             }
             return true;
+        }
+
+        static int GetIntNumberInput(int min, int max)
+        {
+            int inputNumber;
+            string inputString;
+            do
+            {
+                Console.Write($"Please enter number from {min} to {max}: ");
+                inputString = Console.ReadLine();
+                while (!IsNumber(inputString))
+                {
+                    Console.Write($"Please enter correct number!: ");
+                    inputString = Console.ReadLine();
+                }
+
+                inputNumber = Convert.ToInt32(inputString);
+            } while (!InRange(inputNumber, min, max));
+
+            return inputNumber;
         }
 
         static string ChangeNumberToText(int inputNumber)
@@ -36,7 +69,7 @@ namespace HomeWork1
 
             if (inputNumber < 0)
                 return "minus " + ChangeNumberToText(-inputNumber);
-           
+
             List<string> unitsList = new List<string>() { "nulis", "vienas", "du", "trys", "keturi", "penki", "šeši", "septyni", "aštuoni", "devyni", "dešimt", "vienuolika", "dvilika", "trylika", "keturiolika", "penkiolika", "šešiolika", "septyniolika", "aštuoniolika", "devyniolika" };
             List<string> tensList = new List<string>() { "nulis", "dešimt", "dvidešimt ", "trysdešimt ", "keturiasdešimt ", "penkiasdešimt ", "šešiasdešimt ", "septyniasdešimt ", "aštuoniasdešimt ", "devyniasdešimt " };
 
