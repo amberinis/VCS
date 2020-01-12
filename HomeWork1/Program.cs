@@ -17,7 +17,6 @@ namespace HomeWork1
 
         static bool IsNumber(string testNumber)
         {
-            int numberLength = testNumber.Length;
             if (string.IsNullOrEmpty(testNumber))
             {
                 return false;
@@ -26,12 +25,12 @@ namespace HomeWork1
             int i = 0;
             char testSymbol = testNumber[i];
 
-            if ((testSymbol != '-' && !char.IsDigit(testSymbol)) || (testSymbol == '-' && numberLength == 1))
+            if ((testSymbol != '-' && !char.IsDigit(testSymbol)) || (testSymbol == '-' && testNumber.Length == 1))
             {
                 return false;
             }
 
-            for (i = 1; i < numberLength; i++)
+            for (i = 1; i < testNumber.Length; i++)
             {
                 testSymbol = testNumber[i];
                 if (!char.IsDigit(testSymbol))
@@ -52,7 +51,7 @@ namespace HomeWork1
                 inputString = Console.ReadLine();
                 while (!IsNumber(inputString))
                 {
-                    Console.Write($"Please enter correct number!: ");
+                    Console.Write("Please enter correct number!: ");
                     inputString = Console.ReadLine();
                 }
 
@@ -75,23 +74,23 @@ namespace HomeWork1
 
             string stringNumber = "";
 
-            if ((inputNumber % 1000000) == 1 || (((inputNumber / 1000000) % 10) == 1 && (inputNumber / 1000000) > 20) || (((inputNumber / 1000000) % 100 % 10) == 1 && ((inputNumber / 1000000) % 100) > 20))
+            if ((inputNumber / 1000000) == 1 || (((inputNumber / 1000000) % 10) == 1 && (inputNumber / 1000000) > 20))
             {
                 stringNumber += ChangeNumberToText(inputNumber / 1000000) + " milijonas ";
                 inputNumber %= 1000000;
             }
-            if (((inputNumber / 1000000) > 1 && (inputNumber / 1000000) < 10) || (((inputNumber / 1000000) % 10) > 1 && ((inputNumber / 1000000) % 10) < 10) || (((inputNumber / 1000000) % 100 % 10) > 1 && ((inputNumber / 1000000) % 100) < 10))
+            if (((inputNumber / 1000000) > 1 && (inputNumber / 1000000) < 10) || (((inputNumber / 1000000) % 10) > 1 && ((inputNumber / 1000000) % 10) < 10))
             {
                 stringNumber += ChangeNumberToText(inputNumber / 1000000) + " milijonai ";
                 inputNumber %= 1000000;
             }
-            if ((inputNumber / 1000000) >= 10 && ((inputNumber / 1000000) % 10) == 0)
+            if ((inputNumber / 1000000) >= 10 && ((inputNumber / 1000000) % 10) == 0 || (inputNumber / 1000000) >= 10 && ((inputNumber / 1000000) % 100) < 20)
             {
                 stringNumber += ChangeNumberToText(inputNumber / 1000000) + " milijonų ";
                 inputNumber %= 1000000;
             }
 
-            if ((inputNumber % 1000) == 1 || (((inputNumber / 1000) % 10) == 1 && (inputNumber / 1000) > 20))
+            if ((inputNumber / 1000) == 1 || (((inputNumber / 1000) % 10) == 1 && (inputNumber / 1000) > 20))
             {
                 stringNumber += ChangeNumberToText(inputNumber / 1000) + " tūkstantis ";
                 inputNumber %= 1000;
@@ -101,9 +100,9 @@ namespace HomeWork1
                 stringNumber += ChangeNumberToText(inputNumber / 1000) + " tūkstančiai ";
                 inputNumber %= 1000;
             }
-            if ((inputNumber / 1000) >= 10 && ((inputNumber / 1000) % 10) == 0)
+            if ((inputNumber / 1000) >= 10 && ((inputNumber / 1000) % 10) == 0 || (inputNumber / 1000) >= 10 && (inputNumber / 1000) < 20)
             {
-                stringNumber += ChangeNumberToText(inputNumber / 1000000) + " tūkstančių ";
+                stringNumber += ChangeNumberToText(inputNumber / 1000) + " tūkstančių ";
                 inputNumber %= 1000;
             }
 
@@ -120,12 +119,16 @@ namespace HomeWork1
             if (inputNumber > 0)
             {
                 if (inputNumber < 20)
+                {
                     stringNumber += unitsList[inputNumber];
+                }
                 else
                 {
                     stringNumber += tensList[inputNumber / 10];
                     if ((inputNumber % 10) > 0)
+                    {
                         stringNumber += unitsList[inputNumber % 10];
+                    }
                 }
             }
             return stringNumber;
